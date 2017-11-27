@@ -1,7 +1,7 @@
 {
     'name': 'Multiple Payslip',
     'version': '1.0',
-    'author': 'Aktiv Software Pvt. Ltd.',
+    'author': 'Aktiv software',
     'website': 'http://www.aktivsoftware.com',
     'summary': 'Create Multiple Payslip at a same time.',
     'category': 'Human Resources',
