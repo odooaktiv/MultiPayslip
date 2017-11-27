@@ -1,9 +1,8 @@
-from odoo import models, api, fields, _
+from openerp import models, api, fields, _
 import calendar
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
-from openerp import exceptions
-from odoo.exceptions import Warning, ValidationError
+from openerp.exceptions import Warning
 
 MONTHS = [('01', 'January'),
            ('02', 'February'),
@@ -20,7 +19,7 @@ MONTHS = [('01', 'January'),
 
 class MultiEmployeeWiz(models.TransientModel):
     _name = 'multi.employee.wiz'
-    
+
     emplyee_id_obj = fields.Many2one('multi.payslip', "Id")
     employee_id = fields.Many2one('hr.employee', "Employee")
     month_from = fields.Selection(MONTHS, 'Month From', required=True)
@@ -29,9 +28,9 @@ class MultiEmployeeWiz(models.TransientModel):
 
 class MultiPayslipWiz(models.TransientModel):
     _name = 'multi.payslip'
-    
-    employee_ids = fields.One2many('multi.employee.wiz', 'emplyee_id_obj', 'Employee(s)') 
-    
+
+    employee_ids = fields.One2many('multi.employee.wiz', 'emplyee_id_obj', 'Employee(s)')
+
 #     set selected employee in wizard
     @api.model
     def default_get(self, fields):
@@ -39,10 +38,10 @@ class MultiPayslipWiz(models.TransientModel):
         employees = self.env['hr.employee'].browse(self._context.get('active_ids', False))
         emp_list = []
         for employee in employees:
-            emp_list.append((0, 0, {'employee_id':employee.id, 'active':True}))
+            emp_list.append((0, 0, {'employee_id': employee.id, 'active': True}))
         res['employee_ids'] = emp_list
         return res
-    
+
 #     create selected employee's contract
     @api.multi
     def multi_payslip(self):
@@ -55,16 +54,16 @@ class MultiPayslipWiz(models.TransientModel):
             now = datetime.now()
             mon_from = int(emp_id.month_from)
             mon_to = int(emp_id.month_to)
-            
+
             for cur_month in range(mon_from, mon_to):
                 if cur_month == now.month or mon_to >= now.month:
                     raise Warning(_('Please select correct month less then current month.'))
                 else:
                     last_day_of_month = calendar.monthrange(now.year, cur_month)[1]
-                    date_str = str(now.year) + '-'+ str(cur_month) + '-' + str(last_day_of_month)
-                    first_date =  datetime.strptime(str(now.year) + '-'+ str(cur_month) + '-' + '01', '%Y-%m-%d')
+                    date_str = str(now.year) + '-' + str(cur_month) + '-' + str(last_day_of_month)
+                    first_date = datetime.strptime(str(now.year) + '-' + str(cur_month) + '-' + '01', '%Y-%m-%d')
                     last_date = datetime.strptime(date_str, '%Y-%m-%d')
-                    
+
                     val = {'employee_id': emp_id.employee_id.id,
                            'name': emp_id.employee_id.name + ' \'s Payslip',
                            'contract_id': emp_contract['contract_id'],
@@ -77,7 +76,7 @@ class MultiPayslipWiz(models.TransientModel):
                     action['views'] = [(self.env.ref('hr_payroll.view_hr_payslip_form').id, 'form')]
                     action['res_id'] = vals.id
         return action
-        
+
 class HrContract(models.Model):
     _inherit = 'hr.contract'
     _order = 'date_start desc'
@@ -90,9 +89,7 @@ class HrContract(models.Model):
         if employee_id:
             contract_id_obj = self.env['hr.contract'].search([('employee_id', '=', employee_id.id), ('state', '!=', 'close')], order="date_start desc", limit=1)
             contract_id = contract_id_obj and contract_id_obj.id or False
-            print "\n\n contract_id==", contract_id
             struct_id = contract_id_obj.struct_id and contract_id_obj.struct_id.id or False
         val = {'contract_id': contract_id,
                'struct_id': struct_id}
         return val
-          

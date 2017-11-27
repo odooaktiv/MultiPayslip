@@ -1,4 +1,4 @@
-Open ERP System :- Odoo 10 Community for Master 
+Open ERP System :- Odoo 9 Community 
 
 Installation 
 ============

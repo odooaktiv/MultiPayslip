@@ -1,4 +1,4 @@
-from odoo import models, api
+from openerp import models, api
 
 
 class MultiPaySlipWiz(models.TransientModel):
@@ -10,4 +10,5 @@ class MultiPaySlipWiz(models.TransientModel):
                 'active_ids'))
         for payslip in payslip_ids:
             if payslip.state == 'draft':
-                payslip.action_payslip_done()
+                if payslip.hr_verify_sheet():
+                    payslip.process_sheet()
