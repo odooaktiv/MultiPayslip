@@ -15,7 +15,7 @@
         This Module is For create Multiple Payslip at the same
         time...
     """,
-    'images': [],
+    'images':  ['static/description/banner.jpg'],
     'auto_install': False,
     'installable': True,
 }
