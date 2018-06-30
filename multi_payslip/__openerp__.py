@@ -16,8 +16,7 @@
         time...
     """,
 
-    'images':  ['static/description/banner.jpg'],
+    'images': ['static/description/banner.jpg'],
     'auto_install': False,
     'installable': True,
 }
-

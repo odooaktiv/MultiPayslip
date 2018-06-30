@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from openerp import models, api
 
 
@@ -7,7 +9,7 @@ class MultiPaySlipWiz(models.TransientModel):
     @api.multi
     def multi_payslip(self):
         payslip_ids = self.env['hr.payslip'].browse(self._context.get(
-                'active_ids'))
+            'active_ids'))
         for payslip in payslip_ids:
             if payslip.state == 'draft':
                 if payslip.hr_verify_sheet():
