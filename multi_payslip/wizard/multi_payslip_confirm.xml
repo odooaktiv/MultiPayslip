@@ -17,22 +17,11 @@
             </field>
         </record>
 
-        <record id="action_multi_payslip_confirm_wizard" model="ir.actions.act_window">
-            <field name="name">Multi Payslips Confirm</field>
-            <field name="res_model">multi.payslip.wizard</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
-        </record>
-        
-        <record id="action_multiple_payslip_hr_payslip" model="ir.values">
-            <field name="model_id" ref="base.model_res_partner"/>
-            <field name="name">Multi Payslip Confirm</field>
-            <field name="key2">client_action_multi</field>
-            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_multi_payslip_confirm_wizard'))"/>
-            <field name="key">action</field>
-            <field name="model">hr.payslip</field>
-        </record>
+        <act_window id="action_multiple_payslip_hr_payslip"
+            multi="True"
+            key2="client_action_multi" name="Multi Payslip Confirm"
+            res_model="multi.payslip.wizard" src_model="hr.payslip"
+            view_mode="form" target="new" view_type="form" />
         
     </data>
 </odoo>

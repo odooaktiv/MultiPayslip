@@ -1,6 +1,6 @@
 {
     'name': 'Multiple Payslip',
-    'version': '1.0',
+    'version': '11.0.1.0.0',
     'author': 'Aktiv Software',
     'website': 'http://www.aktivsoftware.com',
     'summary': 'Create Multiple Payslip at a same time.',
@@ -15,8 +15,8 @@
         This Module is For create Multiple Payslip at the same
         time...
     """,
-    'images':  ['static/description/banner.jpg'],
+
+    'images': ['static/description/banner.jpg'],
     'auto_install': False,
     'installable': True,
 }
-
