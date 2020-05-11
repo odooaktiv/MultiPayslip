@@ -18,10 +18,9 @@
         </record>
 
         <act_window id="action_multiple_payslip_hr_payslip"
-            multi="True"
-            key2="client_action_multi" name="Multi Payslip Confirm"
-            res_model="multi.payslip.wizard" src_model="hr.payslip"
-            view_mode="form" target="new" view_type="form" />
+            name="Multi Payslip Confirm"
+            res_model="multi.payslip.wizard" binding_model="hr.payslip"
+            view_mode="form" target="new"/>
         
     </data>
 </odoo>

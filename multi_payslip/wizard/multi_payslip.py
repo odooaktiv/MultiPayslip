@@ -21,6 +21,7 @@ MONTHS = [('01', 'January'),
 
 class MultiEmployeeWiz(models.TransientModel):
     _name = 'multi.employee.wiz'
+    _description = 'Multi Employee Wiz'
 
     emplyee_id_obj = fields.Many2one('multi.payslip', "Id")
     employee_id = fields.Many2one('hr.employee', "Employee")
@@ -31,7 +32,7 @@ class MultiEmployeeWiz(models.TransientModel):
 
 class MultiPayslipWiz(models.TransientModel):
     _name = 'multi.payslip'
-
+    _description = 'Multi Pay slip Wiz'
     employee_ids = fields.One2many(
         'multi.employee.wiz', 'emplyee_id_obj', 'Employee(s)')
 
@@ -49,7 +50,6 @@ class MultiPayslipWiz(models.TransientModel):
         return res
 
 #     create selected employee's contract
-    @api.multi
     def multi_payslip(self):
         action = []
         for emp_id in self.employee_ids:
@@ -81,7 +81,6 @@ class MultiPayslipWiz(models.TransientModel):
                     val = {'employee_id': emp_id.employee_id.id,
                            'name': emp_id.employee_id.name + ' \'s Payslip',
                            'contract_id': emp_contract['contract_id'],
-                           'struct_id': emp_contract['struct_id'],
                            'date_from': first_date,
                            'date_to': last_date,
                            }
@@ -100,7 +99,6 @@ class HrContract(models.Model):
     _order = 'date_start desc'
 
 #     find contract of employee.
-    @api.multi
     def get_employee_active_contract(self, rec):
         contract_id = False
         employee_id = rec.employee_id
@@ -109,8 +107,5 @@ class HrContract(models.Model):
                 [('employee_id', '=', employee_id.id),
                  ('state', 'not in', ['close','cancel'])], order="date_start desc", limit=1)
             contract_id = contract_id_obj and contract_id_obj.id or False
-            struct_id = contract_id_obj.struct_id and \
-                contract_id_obj.struct_id.id or False
-        val = {'contract_id': contract_id,
-               'struct_id': struct_id}
+        val = {'contract_id': contract_id}
         return val
