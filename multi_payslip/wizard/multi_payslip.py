@@ -21,7 +21,7 @@ MONTHS = [('01', 'January'),
 
 class MultiEmployeeWiz(models.TransientModel):
     _name = 'multi.employee.wiz'
-    _description = 'Multi Employee Wiz'
+    _description = 'Multi EmployeeWiz'
 
     emplyee_id_obj = fields.Many2one('multi.payslip', "Id")
     employee_id = fields.Many2one('hr.employee', "Employee")
@@ -32,7 +32,8 @@ class MultiEmployeeWiz(models.TransientModel):
 
 class MultiPayslipWiz(models.TransientModel):
     _name = 'multi.payslip'
-    _description = 'Multi Pay slip Wiz'
+    _description = 'Multi PayslipWiz'
+
     employee_ids = fields.One2many(
         'multi.employee.wiz', 'emplyee_id_obj', 'Employee(s)')
 
@@ -85,6 +86,7 @@ class MultiPayslipWiz(models.TransientModel):
                            'date_to': last_date,
                            }
                     vals = self.env['hr.payslip'].create(val)
+                    vals._onchange_employee()
                     action = self.env.ref(
                         'hr_payroll.action_view_hr_payslip_form').read()[0]
                     action['views'] = [
