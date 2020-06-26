@@ -4,7 +4,7 @@
     'author': 'Aktiv software',
     'website': 'http://www.aktivsoftware.com',
     'summary': 'Create Multiple Payslip at a same time.',
-    'category': 'Human Resources',
+    'category': 'Human Resources/Employees',
     'license': 'AGPL-3',
     'depends': ['hr_payroll'],
     'data': [
